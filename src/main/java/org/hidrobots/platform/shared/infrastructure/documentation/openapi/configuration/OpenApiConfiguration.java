@@ -15,14 +15,14 @@ public class OpenApiConfiguration {
         var openApi = new OpenAPI();
         openApi
                 .info(new Info()
-                        .title("HIGN API")
-                        .description("HIGN application REST API documentation.")
+                        .title("HidroBots API")
+                        .description("HidroBots application REST API documentation.")
                         .version("v1.0.0")
                         .license(new License().name("HIGN 2.0")
                                 .url("https://www.apache.org/licenses/LICENSE-2.0.html")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("HIGN Wiki Documentation")
-                        .url("https://acme-learning-platform.wiki.github.io/docs"));
+                        .description("HidroBots Documentation")
+                        .url("https://github.com/IoT-Solutions-SW71-Grupo-4/HidroBots-Report"));
 
         // Add security scheme
 
