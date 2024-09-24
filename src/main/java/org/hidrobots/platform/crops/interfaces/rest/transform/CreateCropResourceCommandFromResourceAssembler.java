@@ -7,7 +7,9 @@ public class CreateCropResourceCommandFromResourceAssembler {
     public static CreateCropCommand toCommandFromResource(CreateCropResource resource) {
         return new CreateCropCommand(
                 resource.cropName(),
-                resource.cropDescription()
+                resource.irrigationType(),
+                resource.area(),
+                resource.plantingDate()
         );
     }
 }

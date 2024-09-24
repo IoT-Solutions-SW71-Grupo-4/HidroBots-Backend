@@ -4,8 +4,9 @@ import jakarta.transaction.Transactional;
 import org.hidrobots.platform.crops.domain.model.aggregates.Crop;
 import org.hidrobots.platform.crops.domain.model.commands.CreateCropCommand;
 import org.hidrobots.platform.crops.domain.model.commands.DeleteCropCommand;
-import org.hidrobots.platform.crops.domain.model.commands.UpdateCropDescriptionCommand;
 import org.hidrobots.platform.crops.domain.model.commands.UpdateCropNameCommand;
+import org.hidrobots.platform.crops.domain.model.commands.UpdateIrrigationTypeCommand;
+import org.hidrobots.platform.crops.domain.model.valueobjects.IrrigationType;
 import org.hidrobots.platform.crops.domain.services.CropCommandService;
 import org.hidrobots.platform.crops.infrastructure.persistence.jpa.repositories.CropRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,23 @@ public class CropCommandServiceImpl implements CropCommandService {
     @Transactional
     public Long handle(CreateCropCommand command) {
         var name = command.cropName();
+        var irrigationType = command.irrigationType();
 
         if(cropRepository.existsCropsByCropName(name)){
-           throw new IllegalArgumentException("Crop with name " + name + "is already exist!!");
+           throw new IllegalArgumentException("Crop with name " + name + " is already exist!!");
         }
+
+        // si el tipo de riego es diferente de manual y automatico, lanza una excepcion
+        if (!irrigationType.equals(IrrigationType.Manual) && !irrigationType.equals(IrrigationType.Automatic)) {
+            throw new IllegalArgumentException("Irrigation type " + irrigationType + " is not valid!!");
+        }
+
 
         Crop crop = new Crop(
                 command.cropName(),
-                command.cropDescription()
+                command.irrigationType(),
+                command.area(),
+                command.plantingDate()
         );
 
         cropRepository.save(crop);
@@ -56,17 +66,26 @@ public class CropCommandServiceImpl implements CropCommandService {
     }
 
     @Override
-    public Optional<Crop> handle(UpdateCropDescriptionCommand command) {
-        // buscamos en la bd si existe un cultivo con el id
-        var crop = cropRepository.findById(command.id()).orElseThrow(() -> new IllegalArgumentException("Course with id " + command.id() + "doesn't exist!!"));
+    @Transactional
+    public Optional<Crop> handle(UpdateIrrigationTypeCommand command) {
 
-        // si la descripcion es diferente de null, de "string" y no esta vacio, actualiza la descripcion
-        if (command.cropDescription() != null && !command.cropDescription().isBlank()) {
-            crop.setCropDescription(command.cropDescription());
+        var crop = cropRepository.findById(command.id()).orElseThrow(() ->
+                new IllegalArgumentException("Crop with id " + command.id() + " doesn't exist!!"));
+
+        var irrigationType = command.irrigationType();
+
+        // Validar el tipo de riego
+        if (!irrigationType.equals(IrrigationType.Manual) && !irrigationType.equals(IrrigationType.Automatic)) {
+            throw new IllegalArgumentException("Irrigation type " + irrigationType + " is not valid!!");
         }
+
+
+        crop.setIrrigationType(irrigationType); // se actaliza
 
         return Optional.of(cropRepository.save(crop));
     }
+
+
 
     @Override
     @Transactional
