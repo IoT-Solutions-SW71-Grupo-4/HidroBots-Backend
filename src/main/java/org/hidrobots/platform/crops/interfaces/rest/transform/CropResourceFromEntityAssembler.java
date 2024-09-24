@@ -8,7 +8,9 @@ public class CropResourceFromEntityAssembler {
         return new CropResource(
                 crop.getId(),
                 crop.getCropName(),
-                crop.getCropDescription()
+                crop.getIrrigationType().name(),
+                crop.getArea(),
+                crop.getPlantingDate().toString()
         );
     }
 }

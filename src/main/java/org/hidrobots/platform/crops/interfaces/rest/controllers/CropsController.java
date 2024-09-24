@@ -4,16 +4,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hidrobots.platform.crops.domain.model.aggregates.Crop;
 import org.hidrobots.platform.crops.domain.model.commands.DeleteCropCommand;
-import org.hidrobots.platform.crops.domain.model.commands.UpdateCropDescriptionCommand;
 import org.hidrobots.platform.crops.domain.model.commands.UpdateCropNameCommand;
+import org.hidrobots.platform.crops.domain.model.commands.UpdateIrrigationTypeCommand;
 import org.hidrobots.platform.crops.domain.model.queries.GetAllCropsQuery;
 import org.hidrobots.platform.crops.domain.model.queries.GetCropByIdQuery;
 import org.hidrobots.platform.crops.domain.services.CropCommandService;
 import org.hidrobots.platform.crops.domain.services.CropQueryService;
 import org.hidrobots.platform.crops.interfaces.rest.resources.CreateCropResource;
 import org.hidrobots.platform.crops.interfaces.rest.resources.CropResource;
-import org.hidrobots.platform.crops.interfaces.rest.resources.UpdateCropDescriptionResource;
 import org.hidrobots.platform.crops.interfaces.rest.resources.UpdateCropNameResource;
+import org.hidrobots.platform.crops.interfaces.rest.resources.UpdateIrrigationTypeResource;
 import org.hidrobots.platform.crops.interfaces.rest.transform.CreateCropResourceCommandFromResourceAssembler;
 import org.hidrobots.platform.crops.interfaces.rest.transform.CropResourceFromEntityAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,22 +92,22 @@ public class CropsController {
         return ResponseEntity.ok(cropResource);
     }
 
-    @PatchMapping("/{cropId}/cropDescription")
-    public ResponseEntity<CropResource> updateCropDescription(@PathVariable Long cropId, @RequestBody UpdateCropDescriptionResource updateCropDescriptionResource) {
-        var updateCropDescriptionCommand = new UpdateCropDescriptionCommand(
+    @PatchMapping("/{cropId}/irrigationType")
+    public ResponseEntity<CropResource> updateIrrigationType(@PathVariable Long cropId, @RequestBody UpdateIrrigationTypeResource updateIrrigationTypeResource) {
+        var updateIrrigationTypeCommand = new UpdateIrrigationTypeCommand(
                 cropId,
-                updateCropDescriptionResource.cropDescription()
+                updateIrrigationTypeResource.irrigationType()
         );
 
-        Optional<Crop> updatedCrop = cropCommandService.handle(updateCropDescriptionCommand);
+        Optional<Crop> updatedIrrigation = cropCommandService.handle(updateIrrigationTypeCommand);
 
-        if (updatedCrop.isEmpty()) {
+        if (updatedIrrigation.isEmpty()) {
             return ResponseEntity.notFound().header(
                     "message", "Crop with id " + cropId + " not found"
             ).build();
         }
 
-        var cropResource = CropResourceFromEntityAssembler.toResourceFromEntity(updatedCrop.get());
+        var cropResource = CropResourceFromEntityAssembler.toResourceFromEntity(updatedIrrigation.get());
         return ResponseEntity.ok(cropResource);
     }
 
