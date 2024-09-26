@@ -2,6 +2,7 @@ package org.hidrobots.platform.shared.domain.model.aggregates;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -15,6 +16,7 @@ public abstract class AuditableAbstractAggregateRoot<T extends AbstractAggregate
 
     @Getter
     @Id
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
