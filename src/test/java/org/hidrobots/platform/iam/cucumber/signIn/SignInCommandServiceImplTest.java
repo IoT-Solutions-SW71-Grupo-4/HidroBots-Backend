@@ -33,7 +33,7 @@ public class SignInCommandServiceImplTest {
         Mockito.when(hashingService.matches(password, "encodedPassword")).thenReturn(true);
         Mockito.when(tokenService.generateToken(email)).thenReturn("mockToken");
 
-        userCommandService = new UserCommandServiceImpl(userRepository, null, hashingService, tokenService);
+        userCommandService = new UserCommandServiceImpl(userRepository, null, hashingService, tokenService, null);
         signInCommand = new SignInCommand(email, password);
     }
 
