@@ -1,30 +1,40 @@
 package org.hidrobots.platform.profiles.application.internal.eventHandlers.eventListeners;
 
 import org.hidrobots.platform.iam.domain.model.events.UserRegisteredEvent;
-import org.hidrobots.platform.profiles.domain.model.aggregates.Farmer;
-import org.hidrobots.platform.profiles.infrastructure.persistence.jpa.repositories.FarmerRepository;
+
+import org.hidrobots.platform.profiles.domain.model.commands.CreateFarmerCommand;
+import org.hidrobots.platform.profiles.domain.model.events.FarmerCreatedEvent;
+import org.hidrobots.platform.profiles.domain.services.FarmerCommandService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserRegisteredEventHandler {
 
-    private final FarmerRepository farmerRepository;
+    private final FarmerCommandService farmerCommandService;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserRegisteredEventHandler(FarmerRepository farmerRepository) {
-        this.farmerRepository = farmerRepository;
+    public UserRegisteredEventHandler(FarmerCommandService farmerCommandService, ApplicationEventPublisher eventPublisher) {
+        this.farmerCommandService = farmerCommandService;
+        this.eventPublisher = eventPublisher;
     }
 
     @EventListener
     public void handleUserRegisteredEvent(UserRegisteredEvent event) {
+        // Crea el Farmer solo si no existe
+        try {
+            CreateFarmerCommand createFarmerCommand = new CreateFarmerCommand(event.getFullName(), event.getEmail(), "", event.getPassword());
+            Long farmerId = farmerCommandService.createFarmer(createFarmerCommand);  // Obtén el ID del Farmer recién creado
 
-        String email = event.getEmail();
-        String fullName = event.getFullName();
-        String password = event.getPassword();
+            // Una vez que se crea el Farmer, publicar un nuevo evento que BC Crops pueda escuchar
+            FarmerCreatedEvent farmerCreatedEvent = new FarmerCreatedEvent(this, farmerId, event.getEmail());  // Usa el ID en lugar de Strings
+            eventPublisher.publishEvent(farmerCreatedEvent);
 
-        Farmer farmer = new Farmer(fullName, email, "", password);
-        farmerRepository.save(farmer);
-
-        System.out.println("Creating profile to user with email: " + email + " and name: " + fullName);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Farmer with email " + event.getEmail() + " already exists. Skipping creation.");
+        }
     }
 }
+
+

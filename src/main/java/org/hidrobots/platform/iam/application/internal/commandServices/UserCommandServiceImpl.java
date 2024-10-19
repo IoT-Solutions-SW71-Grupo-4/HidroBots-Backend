@@ -13,6 +13,7 @@ import org.hidrobots.platform.iam.domain.services.UserCommandService;
 import org.hidrobots.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 import org.hidrobots.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final TokenService tokenService;
 
     private final ApplicationEventPublisher applicationEventPublisher;
-    
+
 
     public UserCommandServiceImpl(UserRepository userRepository, RoleRepository roleRepository, HashingService hashingService, TokenService tokenService, ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;

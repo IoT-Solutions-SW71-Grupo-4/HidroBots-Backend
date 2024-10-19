@@ -27,11 +27,16 @@ public class FarmerCommandServiceImpl implements FarmerCommandService {
     @Override
     public Long createFarmer(CreateFarmerCommand command) {
 
+        // Verificar si ya existe un Farmer con el mismo email
+        if (farmerRepository.existsByEmail(command.email())) {
+            throw new IllegalArgumentException("Farmer with email " + command.email() + " already exists");
+        }
+
         Farmer farmer = new Farmer(
                 command.username(),
-                command.password(),
                 command.email(),
-                command.phoneNumber()
+                command.phoneNumber(),
+                command.password()
         );
         farmerRepository.save(farmer);
 
