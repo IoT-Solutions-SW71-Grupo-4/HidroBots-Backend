@@ -33,12 +33,12 @@ public class FarmerCommandServiceImpl implements FarmerCommandService {
                 command.email(),
                 command.phoneNumber()
         );
+        farmerRepository.save(farmer);
 
         // Publicamos el evento
         FarmerCreatedEvent event = new FarmerCreatedEvent(this, farmer.getId(), farmer.getEmail());
         eventPublisher.publishEvent(event);
 
-        farmerRepository.save(farmer);
         return farmer.getId();
     }
 
