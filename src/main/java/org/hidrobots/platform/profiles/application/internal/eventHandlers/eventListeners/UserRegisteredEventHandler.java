@@ -1,4 +1,4 @@
-package org.hidrobots.platform.profiles.application.internal.eventHandlers;
+package org.hidrobots.platform.profiles.application.internal.eventHandlers.eventListeners;
 
 import org.hidrobots.platform.iam.domain.model.events.UserRegisteredEvent;
 import org.hidrobots.platform.profiles.domain.model.aggregates.Farmer;

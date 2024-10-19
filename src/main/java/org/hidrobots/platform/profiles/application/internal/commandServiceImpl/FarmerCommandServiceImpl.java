@@ -3,9 +3,11 @@ package org.hidrobots.platform.profiles.application.internal.commandServiceImpl;
 import org.hidrobots.platform.profiles.domain.model.aggregates.Farmer;
 import org.hidrobots.platform.profiles.domain.model.commands.CreateFarmerCommand;
 import org.hidrobots.platform.profiles.domain.model.commands.UpdateFarmerCommand;
+import org.hidrobots.platform.profiles.domain.model.events.FarmerCreatedEvent;
 import org.hidrobots.platform.profiles.domain.services.FarmerCommandService;
 import org.hidrobots.platform.profiles.infrastructure.persistence.jpa.repositories.FarmerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,10 +16,12 @@ import java.util.Optional;
 public class FarmerCommandServiceImpl implements FarmerCommandService {
 
     private final FarmerRepository farmerRepository;
+    private final ApplicationEventPublisher eventPublisher; // se usa para publicar eventos
 
     @Autowired
-    public FarmerCommandServiceImpl(FarmerRepository farmerRepository) {
+    public FarmerCommandServiceImpl(FarmerRepository farmerRepository, ApplicationEventPublisher applicationEventPublisher, ApplicationEventPublisher eventPublisher) {
         this.farmerRepository = farmerRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -29,6 +33,11 @@ public class FarmerCommandServiceImpl implements FarmerCommandService {
                 command.email(),
                 command.phoneNumber()
         );
+
+        // Publicamos el evento
+        FarmerCreatedEvent event = new FarmerCreatedEvent(this, farmer.getId(), farmer.getEmail());
+        eventPublisher.publishEvent(event);
+
         farmerRepository.save(farmer);
         return farmer.getId();
     }
