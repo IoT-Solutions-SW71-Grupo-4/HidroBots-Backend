@@ -7,6 +7,7 @@ import org.hidrobots.platform.iam.application.internal.outboundservices.tokens.T
 import org.hidrobots.platform.iam.domain.model.aggregates.User;
 import org.hidrobots.platform.iam.domain.model.commands.SignInCommand;
 import org.hidrobots.platform.iam.domain.model.commands.SignUpCommand;
+import org.hidrobots.platform.iam.domain.model.events.UserRegisteredEvent;
 import org.hidrobots.platform.iam.domain.model.valueobjects.Roles;
 import org.hidrobots.platform.iam.domain.services.UserCommandService;
 import org.hidrobots.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
@@ -53,7 +54,12 @@ public class UserCommandServiceImpl implements UserCommandService {
             userRepository.save(user);
 
             // publicamos el evento de usuario registrado
-            applicationEventPublisher.publishEvent(user);
+        System.out.println("Publishing UserRegisteredEvent for user: " + user.getEmail());
+        applicationEventPublisher.publishEvent(
+                new UserRegisteredEvent(this, user.getFullName(), user.getEmail(), user.getPassword())
+        );
+
+
 
         return userRepository.findByEmail(command.email());
     }
