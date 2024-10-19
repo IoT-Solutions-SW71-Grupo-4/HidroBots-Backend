@@ -9,6 +9,7 @@ import org.hidrobots.platform.crops.domain.model.commands.UpdateIrrigationTypeCo
 import org.hidrobots.platform.crops.domain.model.valueobjects.IrrigationType;
 import org.hidrobots.platform.crops.domain.services.CropCommandService;
 import org.hidrobots.platform.crops.infrastructure.persistence.jpa.repositories.CropRepository;
+import org.hidrobots.platform.profiles.infrastructure.persistence.jpa.repositories.FarmerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class CropCommandServiceImpl implements CropCommandService {
     private final CropRepository cropRepository;
 
     @Autowired
-    public CropCommandServiceImpl(CropRepository cropRepository) {
+    public CropCommandServiceImpl(CropRepository cropRepository, FarmerRepository farmerRepository) {
         this.cropRepository = cropRepository;
     }
 
@@ -44,7 +45,8 @@ public class CropCommandServiceImpl implements CropCommandService {
                 command.cropName(),
                 command.irrigationType(),
                 command.area(),
-                command.plantingDate()
+                command.plantingDate(),
+                command.farmerId()
         );
 
         cropRepository.save(crop);

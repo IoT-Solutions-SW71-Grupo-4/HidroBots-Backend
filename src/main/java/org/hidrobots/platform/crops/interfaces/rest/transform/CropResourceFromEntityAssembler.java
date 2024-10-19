@@ -10,7 +10,8 @@ public class CropResourceFromEntityAssembler {
                 crop.getCropName(),
                 crop.getIrrigationType().name(),
                 crop.getArea(),
-                crop.getPlantingDate().toString()
+                crop.getPlantingDate().toString(),
+                crop.getFarmerId()
         );
     }
 }

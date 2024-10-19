@@ -9,7 +9,8 @@ public class CreateCropResourceCommandFromResourceAssembler {
                 resource.cropName(),
                 resource.irrigationType(),
                 resource.area(),
-                resource.plantingDate()
+                resource.plantingDate(),
+                resource.farmerId()
         );
     }
 }

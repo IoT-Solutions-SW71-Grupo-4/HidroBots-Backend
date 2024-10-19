@@ -36,8 +36,8 @@ public class CropQueryServiceImplTest {
     @Given("there are crops in the repository")
     public void there_are_crops_in_the_repository() {
         cropRepository.deleteAll(); // Limpiar la base de datos antes de agregar cultivos de prueba
-        Crop crop1 = new Crop("Wheat", IrrigationType.Manual, 100L, LocalDate.parse("2021-01-01"));
-        Crop crop2 = new Crop("Corn", IrrigationType.Automatic, 200L, LocalDate.parse("2021-02-01"));
+        Crop crop1 = new Crop("Wheat", IrrigationType.Manual, 100L, LocalDate.parse("2021-01-01"), 1L);
+        Crop crop2 = new Crop("Corn", IrrigationType.Automatic, 200L, LocalDate.parse("2021-02-01"), 1L);
         cropRepository.save(crop1);
         cropRepository.save(crop2);
     }
@@ -56,7 +56,7 @@ public class CropQueryServiceImplTest {
     @Given("a crop is saved in the repository with id {long}")
     public void a_crop_is_saved_in_the_repository_with_id(Long id) {
         cropRepository.deleteAll(); // Limpiar la base de datos antes de agregar cultivos de prueba
-        Crop crop = new Crop("Wheat", IrrigationType.Manual, 100L, LocalDate.parse("2021-01-01"));
+        Crop crop = new Crop("Wheat", IrrigationType.Manual, 100L, LocalDate.parse("2021-01-01"), 1L);
         savedCrop = cropRepository.save(crop);
     }
 

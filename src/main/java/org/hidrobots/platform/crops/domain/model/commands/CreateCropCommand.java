@@ -9,6 +9,7 @@ public record CreateCropCommand(
         String cropName,
         IrrigationType irrigationType,
         Long area,
-        LocalDate plantingDate
+        LocalDate plantingDate,
+        Long farmerId
 ) {
 }
