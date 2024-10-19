@@ -32,7 +32,7 @@ public class CropCommandServiceImplTest {
 
     @Given("a crop with name {string} and irrigation type {string}")
     public void a_crop_with_name_and_irrigation_type(String name, String irrigationType) {
-        createCropCommand = new CreateCropCommand(name, IrrigationType.valueOf(irrigationType), 100L, LocalDate.parse("2021-01-01"));
+        createCropCommand = new CreateCropCommand(name, IrrigationType.valueOf(irrigationType), 100L, LocalDate.now(), 1L);
     }
 
     @When("the crop is created")

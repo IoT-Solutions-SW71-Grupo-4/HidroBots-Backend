@@ -39,11 +39,15 @@ public class Crop extends AuditableAbstractAggregateRoot<Crop> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "America/Lima")
     private LocalDate plantingDate;
 
+    @NotNull
+    private Long farmerId;
 
-    public Crop(String cropName, IrrigationType irrigationType, Long area, LocalDate plantingDate) {
+
+    public Crop(String cropName, IrrigationType irrigationType, Long area, LocalDate plantingDate, Long farmerId) {
         this.cropName = cropName;
         this.irrigationType = irrigationType;
         this.area = area;
         this.plantingDate = plantingDate;
+        this.farmerId = farmerId;
     }
 }

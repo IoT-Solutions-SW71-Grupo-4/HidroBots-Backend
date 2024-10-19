@@ -20,6 +20,9 @@ public record CreateCropResource(
 
         @NotNull(message = "Planting date is mandatory")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        LocalDate plantingDate
+        LocalDate plantingDate,
+
+        @NotNull(message = "Farmer id is mandatory")
+        Long farmerId
 ) {
 }
