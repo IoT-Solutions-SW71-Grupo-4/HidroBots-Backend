@@ -11,6 +11,8 @@ import org.hidrobots.platform.iam.domain.model.valueobjects.Roles;
 import org.hidrobots.platform.iam.domain.services.UserCommandService;
 import org.hidrobots.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 import org.hidrobots.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
+
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,13 +24,16 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final RoleRepository roleRepository;
     private final HashingService hashingService;
     private final TokenService tokenService;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
     
 
-    public UserCommandServiceImpl(UserRepository userRepository, RoleRepository roleRepository, HashingService hashingService, TokenService tokenService) {
+    public UserCommandServiceImpl(UserRepository userRepository, RoleRepository roleRepository, HashingService hashingService, TokenService tokenService, ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
 
@@ -46,6 +51,10 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .orElseThrow(() -> new RuntimeException("Role not found"))).toList();
             var user = new User(command.fullName(), command.email(), hashingService.encode(command.password()), roles);
             userRepository.save(user);
+
+            // publicamos el evento de usuario registrado
+            applicationEventPublisher.publishEvent(user);
+
         return userRepository.findByEmail(command.email());
     }
 
