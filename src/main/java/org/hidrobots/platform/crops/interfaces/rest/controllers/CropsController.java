@@ -12,6 +12,7 @@ import org.hidrobots.platform.crops.domain.model.commands.UpdateIrrigationTypeCo
 import org.hidrobots.platform.crops.domain.model.entities.CropImage;
 import org.hidrobots.platform.crops.domain.model.queries.GetAllCropsQuery;
 import org.hidrobots.platform.crops.domain.model.queries.GetCropByIdQuery;
+import org.hidrobots.platform.crops.domain.model.queries.GetCropsFromAFarmerQuery;
 import org.hidrobots.platform.crops.domain.services.CropCommandService;
 import org.hidrobots.platform.crops.domain.services.CropQueryService;
 import org.hidrobots.platform.crops.interfaces.rest.resources.*;
@@ -87,6 +88,24 @@ public class CropsController {
                         "message", "Crop with id " + cropId + " not found"
                 ).build());
     }
+
+    @GetMapping("/farmer/{farmerId}/crops")
+    public ResponseEntity<List<CropResource>> getCropsFromFarmer(@PathVariable Long farmerId) {
+        // Crear la consulta usando el farmerId
+        GetCropsFromAFarmerQuery query = new GetCropsFromAFarmerQuery(farmerId);
+
+        // Llamar al servicio que maneja la lógica de consulta
+        List<Crop> crops = cropQueryService.handle(query);
+
+        // Convertir los cultivos obtenidos a recursos para enviarlos como respuesta
+        List<CropResource> cropResources = crops.stream()
+                .map(CropResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+
+        // Devolver los cultivos como una respuesta HTTP
+        return ResponseEntity.ok(cropResources);
+    }
+
 
     @PutMapping("/{cropId}")
     public ResponseEntity<CropResource> updateCrop(@PathVariable Long cropId, @RequestBody UpdateCropResource updateCropResource) {
