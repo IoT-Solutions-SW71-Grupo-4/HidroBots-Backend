@@ -10,7 +10,9 @@ public class FarmerResourceFromEntityAssembler {
                 farmer.getUsername(),
                 farmer.getEmail(),
                 farmer.getPhoneNumber(),
-                farmer.getPassword()
+                farmer.getPassword(),
+                farmer.getFarmerImage() != null ? farmer.getFarmerImage().getImageUrl() : null // Aquí evitamos el NullPointerException
+
         );
     }
 }

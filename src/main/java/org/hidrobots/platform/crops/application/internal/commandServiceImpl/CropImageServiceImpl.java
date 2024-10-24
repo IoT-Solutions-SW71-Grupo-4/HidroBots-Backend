@@ -1,7 +1,7 @@
 package org.hidrobots.platform.crops.application.internal.commandServiceImpl;
 
 import org.hidrobots.platform.crops.domain.model.entities.CropImage;
-import org.hidrobots.platform.crops.domain.services.CloudinaryCommandService;
+import org.hidrobots.platform.shared.domain.services.CloudinaryCommandService;
 import org.hidrobots.platform.crops.domain.services.CropImageService;
 import org.hidrobots.platform.crops.infrastructure.persistence.jpa.repositories.CropImageRepository;
 import org.springframework.stereotype.Service;

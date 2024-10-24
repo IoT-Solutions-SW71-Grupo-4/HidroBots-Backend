@@ -1,8 +1,8 @@
-package org.hidrobots.platform.crops.application.internal.commandServiceImpl;
+package org.hidrobots.platform.shared.application.internal.commandServiceImpl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import org.hidrobots.platform.crops.domain.services.CloudinaryCommandService;
+import org.hidrobots.platform.shared.domain.services.CloudinaryCommandService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

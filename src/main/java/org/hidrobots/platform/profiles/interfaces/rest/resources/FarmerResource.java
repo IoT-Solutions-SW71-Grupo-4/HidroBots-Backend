@@ -5,6 +5,7 @@ public record FarmerResource(
         String username,
         String email,
         String phoneNumber,
-        String password
+        String password,
+        String imageUrl
 ) {
 }
