@@ -112,16 +112,22 @@ public class CropCommandServiceImpl implements CropCommandService {
     @Override
     @Transactional
     public void handle(DeleteCropCommand command) {
-        // verify if crop exist in the database
-        if (!cropRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Crop with id " + command.id() + " doesn't exist!!");
+        // Verificar si el cultivo existe en la base de datos
+        var crop = cropRepository.findById(command.id())
+                .orElseThrow(() -> new IllegalArgumentException("Crop with id " + command.id() + " doesn't exist!!"));
+
+        // Si el cultivo tiene una imagen asociada, eliminar la imagen de Cloudinary
+        if (crop.getCropImage() != null) {
+            try {
+                cropImageService.deleteImage(crop.getCropImage());
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Error deleting image from Cloudinary for crop with id " + command.id());
+            }
         }
-        try {
-            cropRepository.deleteById(command.id());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error deleting crop with id " + command.id());
-        }
+
+        cropRepository.deleteById(command.id());
     }
+
 
     @Override
     @Transactional
