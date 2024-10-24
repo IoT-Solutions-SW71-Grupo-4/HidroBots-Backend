@@ -1,4 +1,4 @@
-package org.hidrobots.platform.crops.domain.services;
+package org.hidrobots.platform.shared.domain.services;
 
 import org.springframework.web.multipart.MultipartFile;
 

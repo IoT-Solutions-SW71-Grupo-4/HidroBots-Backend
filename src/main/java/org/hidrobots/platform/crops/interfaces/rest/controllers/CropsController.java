@@ -20,7 +20,6 @@ import org.hidrobots.platform.crops.domain.services.CropQueryService;
 import org.hidrobots.platform.crops.interfaces.rest.resources.*;
 import org.hidrobots.platform.crops.interfaces.rest.transform.CreateCropResourceCommandFromResourceAssembler;
 import org.hidrobots.platform.crops.interfaces.rest.transform.CropResourceFromEntityAssembler;
-import org.hidrobots.platform.crops.interfaces.rest.transform.UpdateCropImageResourceFromResourceAssembler;
 import org.hidrobots.platform.crops.interfaces.rest.transform.UpdateCropResourceCommandFromResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -92,10 +91,7 @@ public class CropsController {
 
     @Operation(
             summary = "Get a crop by cropId",
-            description = "Returns the crop with the given cropId",
-            parameters = {
-                    @Parameter(name = "cropId", description = "ID of the crop to retrieve", required = true)
-            }
+            description = "Returns the crop with the given cropId"
     )
     @GetMapping("/{cropId}")
     public ResponseEntity<CropResource> getCropById(@PathVariable Long cropId) {
@@ -113,10 +109,7 @@ public class CropsController {
 
     @Operation(
             summary = "Get all crops for a specific farmer",
-            description = "Returns a list of all crops associated with the given farmerId",
-            parameters = {
-                    @Parameter(name = "farmerId", description = "ID of the farmer whose crops you want to retrieve", required = true)
-            }
+            description = "Returns a list of all crops associated with the given farmerId"
     )
     @GetMapping("/farmer/{farmerId}/crops")
     public ResponseEntity<List<CropResource>> getCropsFromFarmer(@PathVariable Long farmerId) {
@@ -140,10 +133,7 @@ public class CropsController {
 
     @Operation(
             summary = "Update a crop by cropId (only the crop data) | NO IMAGE UPDATE",
-            description = "Updates the crop with the given cropId using the data provided in the request body",
-            parameters = {
-                    @Parameter(name = "cropId", description = "ID of the crop to update", required = true)
-            }
+            description = "Updates the crop with the given cropId using the data provided in the request body"
     )
     @PutMapping("/{cropId}")
     public ResponseEntity<CropResource> updateCrop(@PathVariable Long cropId, @RequestBody UpdateCropResource updateCropResource) {
@@ -165,10 +155,7 @@ public class CropsController {
 
     @Operation(
             summary = "Update a crop image by cropId",
-            description = "Updates the crop image with the given cropId using the image provided in the request body",
-            parameters = {
-                    @Parameter(name = "cropId", description = "ID of the crop to update", required = true)
-            }
+            description = "Updates the crop image with the given cropId using the image provided in the request body"
     )
     @PutMapping(value = "/{cropId}/cropImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CropResource> updateCropImage(
@@ -205,10 +192,7 @@ public class CropsController {
 
     @Operation(
             summary = "Update the irrigation type of a crop by cropId",
-            description = "Updates the irrigation type of the crop with the given cropId using the irrigation type [Manual, Automatic]",
-            parameters = {
-                    @Parameter(name = "cropId", description = "ID of the crop to update", required = true)
-            }
+            description = "Updates the irrigation type of the crop with the given cropId using the irrigation type [Manual, Automatic]"
     )
     @PatchMapping("/{cropId}/irrigationType")
     public ResponseEntity<CropResource> updateIrrigationType(@PathVariable Long cropId, @RequestBody UpdateIrrigationTypeResource updateIrrigationTypeResource) {
@@ -234,10 +218,7 @@ public class CropsController {
 
     @Operation(
             summary = "Delete a crop by cropId",
-            description = "Deletes the crop with the given cropId",
-            parameters = {
-                    @Parameter(name = "cropId", description = "ID of the crop to delete", required = true)
-            }
+            description = "Deletes the crop with the given cropId"
     )
     @DeleteMapping("/{cropId}")
     public ResponseEntity<?> deleteCrop(@PathVariable Long cropId) {
@@ -251,10 +232,7 @@ public class CropsController {
 
     @Operation(
             summary = "Delete a crop image by cropId",
-            description = "Deletes the image of the crop with the given cropId",
-            parameters = {
-                    @Parameter(name = "cropId", description = "ID of the crop to delete the image", required = true)
-            }
+            description = "Deletes the image of the crop with the given cropId"
     )
     @DeleteMapping("/{cropId}/cropImage")
     public ResponseEntity<CropResource> deleteCropImage(@PathVariable Long cropId) throws IOException {
