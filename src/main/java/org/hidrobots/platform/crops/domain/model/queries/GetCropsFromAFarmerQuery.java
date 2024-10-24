@@ -1,4 +1,4 @@
 package org.hidrobots.platform.crops.domain.model.queries;
 
-public record GetCropsFromFarmerQuery(Long farmerId) {
+public record GetCropsFromAFarmerQuery(Long farmerId) {
 }

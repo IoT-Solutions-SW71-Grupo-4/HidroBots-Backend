@@ -3,7 +3,7 @@ package org.hidrobots.platform.crops.application.internal.queryServiceImpl;
 import org.hidrobots.platform.crops.domain.model.aggregates.Crop;
 import org.hidrobots.platform.crops.domain.model.queries.GetAllCropsQuery;
 import org.hidrobots.platform.crops.domain.model.queries.GetCropByIdQuery;
-import org.hidrobots.platform.crops.domain.model.queries.GetCropsFromFarmerQuery;
+import org.hidrobots.platform.crops.domain.model.queries.GetCropsFromAFarmerQuery;
 import org.hidrobots.platform.crops.domain.services.CropQueryService;
 import org.hidrobots.platform.crops.infrastructure.persistence.jpa.repositories.CropRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class CropQueryServiceImpl implements CropQueryService {
     }
 
     @Override
-    public List<Crop> handle(GetCropsFromFarmerQuery query) {
+    public List<Crop> handle(GetCropsFromAFarmerQuery query) {
         return cropRepository.findCropByFarmerId(query.farmerId());
     }
 

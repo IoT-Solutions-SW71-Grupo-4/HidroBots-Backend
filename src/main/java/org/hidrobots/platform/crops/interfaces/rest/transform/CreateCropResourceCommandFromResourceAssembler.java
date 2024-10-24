@@ -11,6 +11,7 @@ public class CreateCropResourceCommandFromResourceAssembler {
                 resource.area(),
                 resource.plantingDate(),
                 resource.farmerId()
+
         );
     }
 }

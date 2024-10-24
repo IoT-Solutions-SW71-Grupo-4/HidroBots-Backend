@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hidrobots.platform.crops.domain.model.commands.CreateCropCommand;
+import org.hidrobots.platform.crops.domain.model.commands.UpdateCropCommand;
+import org.hidrobots.platform.crops.domain.model.entities.CropImage;
 import org.hidrobots.platform.crops.domain.model.valueobjects.IrrigationType;
 import org.hidrobots.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
@@ -42,12 +45,32 @@ public class Crop extends AuditableAbstractAggregateRoot<Crop> {
     @NotNull
     private Long farmerId;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "crop_image_id", referencedColumnName = "id")
+    private CropImage cropImage;
 
-    public Crop(String cropName, IrrigationType irrigationType, Long area, LocalDate plantingDate, Long farmerId) {
+
+    public Crop(CreateCropCommand command) {
+        this();
+        this.cropName = command.cropName();
+        this.irrigationType = command.irrigationType();
+        this.area = command.area();
+        this.plantingDate = command.plantingDate();
+        this.farmerId = command.farmerId();
+    }
+
+    public Crop update(
+            String cropName,
+            IrrigationType irrigationType,
+            Long area,
+            LocalDate plantingDate,
+            Long farmerId
+    ) {
         this.cropName = cropName;
         this.irrigationType = irrigationType;
         this.area = area;
         this.plantingDate = plantingDate;
         this.farmerId = farmerId;
+        return this;
     }
 }
