@@ -5,6 +5,8 @@ public record CropResource(
         String cropName,
         String irrigationType,
         Long area,
-        String plantingDate
+        String plantingDate,
+        Long farmerId,
+        String imageUrl
 ) {
 }

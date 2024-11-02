@@ -39,7 +39,7 @@ public class SignUpCommandServiceImplTest {
         Mockito.when(userRepository.existsByEmail(email)).thenReturn(false);
         Mockito.when(hashingService.encode(password)).thenReturn("encodedPassword");
 
-        userCommandService = new UserCommandServiceImpl(userRepository, roleRepository, hashingService, tokenService);
+        userCommandService = new UserCommandServiceImpl(userRepository, roleRepository, hashingService, tokenService, null);
         signUpCommand = new SignUpCommand(fullName, email, password, new ArrayList<>());
 
         // Mocking the save and findByEmail methods
