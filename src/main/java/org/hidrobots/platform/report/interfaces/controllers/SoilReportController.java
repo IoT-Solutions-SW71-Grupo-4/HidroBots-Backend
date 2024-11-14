@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @RestController
 @Tag(name = "Soil Report", description = "Soil Report management")
 @RequestMapping(value = "api/v1/soilReport", produces = MediaType.APPLICATION_JSON_VALUE)
-
 public class SoilReportController {
     private final SoilReportCommandService soilReportCommandService;
     private final SoilReportQueryService soilReportQueryService;
