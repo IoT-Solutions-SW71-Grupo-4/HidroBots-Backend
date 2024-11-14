@@ -39,15 +39,11 @@ public class CropsController {
 
     private final CropCommandService cropCommandService;
     private final CropQueryService cropQueryService;
-    private final CropCommandServiceImpl cropCommandServiceImpl;
-    private final CropImageServiceImpl cropImageServiceImpl;
 
     @Autowired
     public CropsController(CropCommandService cropCommandService, CropQueryService cropQueryService, CropCommandServiceImpl cropCommandServiceImpl, CropImageServiceImpl cropImageServiceImpl) {
         this.cropCommandService = cropCommandService;
         this.cropQueryService = cropQueryService;
-        this.cropCommandServiceImpl = cropCommandServiceImpl;
-        this.cropImageServiceImpl = cropImageServiceImpl;
     }
 
     @Operation(

@@ -50,6 +50,9 @@ public class Role {
 
         return roles;
     }
+    public static Role getFirstRole(List<Role> roles) {
+        return roles.get(0);
+    }
 
 
 
