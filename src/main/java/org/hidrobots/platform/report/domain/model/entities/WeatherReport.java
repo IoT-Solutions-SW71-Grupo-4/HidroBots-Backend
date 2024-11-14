@@ -1,17 +1,19 @@
 package org.hidrobots.platform.report.domain.model.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hidrobots.platform.crops.domain.model.entities.Device;
 import org.hidrobots.platform.report.domain.model.commands.CreateWeatherReportCommand;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 
 import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,13 +26,13 @@ public class WeatherReport {
     @CreatedDate
     private Date dateTime;
 
-    @NotBlank(message = "Temperature is required")
-    private String temperature;
+    @NotNull(message = "Temperature is required")
+    private Double temperature;
 
-    @NotBlank(message = "Humidity is required")
-    private String humidity;
+    @NotNull(message = "Humidity is required")
+    private Double humidity;
 
-    @NotBlank(message = "Device is required")
+    @NotNull(message = "Device is required")
     private Long deviceId;
 
     public WeatherReport(CreateWeatherReportCommand command) {

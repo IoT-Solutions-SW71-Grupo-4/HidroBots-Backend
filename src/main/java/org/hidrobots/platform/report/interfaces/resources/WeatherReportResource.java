@@ -5,8 +5,8 @@ import java.util.Date;
 public record WeatherReportResource(
         Long id,
         Date date,
-        String temperature,
-        String humidity,
+        Double temperature,
+        Double humidity,
         Long deviceId
 ) {
 }

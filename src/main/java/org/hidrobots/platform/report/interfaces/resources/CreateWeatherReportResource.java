@@ -1,8 +1,8 @@
 package org.hidrobots.platform.report.interfaces.resources;
 
 public record CreateWeatherReportResource(
-        String temperature,
-        String humidity,
+        Double temperature,
+        Double humidity,
         Long deviceId
 ) {
 }
