@@ -1,7 +1,7 @@
 package org.hidrobots.platform.report.application.commandServiceImpl;
 
 import jakarta.transaction.Transactional;
-import org.hidrobots.platform.crops.infrastructure.persistence.jpa.repositories.DeviceRepository;
+import org.hidrobots.platform.devices.infrastructure.persistence.jpa.repositories.DeviceRepository;
 import org.hidrobots.platform.report.domain.model.commands.CreateWeatherReportCommand;
 import org.hidrobots.platform.report.domain.model.entities.WeatherReport;
 import org.hidrobots.platform.report.domain.service.WeatherReportCommandService;
