@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MqttConfig {
     private static final String MQTT_BROKER_URL = "tcp://mqtt-dashboard.com:1883";
-    private static final String CLIENT_ID = "hodrobots_mqtt_client";
+    private static final String CLIENT_ID = "clientId_123456789123456798";
 
     private static final String WEATHER_ANALYSIS_TOPIC = "hidrobots/weather_analysis/data";
     private static final String SOIL_ANALYSIS_TOPIC = "hidrobots/soil_analysis/data";
@@ -46,7 +46,7 @@ public class MqttConfig {
 
                 switch (topic) {
                     case WEATHER_ANALYSIS_TOPIC:
-                        System.out.println("Handling soil analysis response");
+                        System.out.println("Handling weather analysis response");
                         weatherAnalysisListener.handleWeatherAnalysisResponseFromDevice(message);
                         break;
                     case SOIL_ANALYSIS_TOPIC:
