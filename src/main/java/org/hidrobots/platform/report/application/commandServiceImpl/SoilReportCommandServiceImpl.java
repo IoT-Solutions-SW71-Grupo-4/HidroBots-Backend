@@ -3,6 +3,7 @@ package org.hidrobots.platform.report.application.commandServiceImpl;
 import jakarta.transaction.Transactional;
 import org.hidrobots.platform.devices.infrastructure.persistence.jpa.repositories.DeviceRepository;
 import org.hidrobots.platform.report.domain.model.commands.CreateSoilReportCommand;
+import org.hidrobots.platform.report.domain.model.commands.CreateSoilReportWithDeviceCodeCommand;
 import org.hidrobots.platform.report.domain.model.entities.SoilReport;
 import org.hidrobots.platform.report.domain.service.SoilReportCommandService;
 import org.hidrobots.platform.report.infrastructure.repositories.SoilReportRepository;
@@ -25,6 +26,16 @@ public class SoilReportCommandServiceImpl implements SoilReportCommandService {
             throw new IllegalArgumentException("Device with id " + command.deviceId() + " doesn't exist!!");
         }
         SoilReport soilReport = new SoilReport(command);
+        return soilReportRepository.save(soilReport).getId();
+    }
+
+    @Override
+    public Long createSoilReport(CreateSoilReportWithDeviceCodeCommand command) {
+        var existingDevice = deviceRepository.findByDeviceCode(command.getDeviceCode());
+        if (existingDevice.isEmpty()) {
+            throw new IllegalArgumentException("Device with code " + command.getDeviceCode() + " doesn't exist!!");
+        }
+        SoilReport soilReport = new SoilReport(command, existingDevice.get().getId());
         return soilReportRepository.save(soilReport).getId();
     }
 

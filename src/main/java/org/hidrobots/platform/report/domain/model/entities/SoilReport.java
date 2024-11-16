@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hidrobots.platform.report.domain.model.commands.CreateSoilReportCommand;
+import org.hidrobots.platform.report.domain.model.commands.CreateSoilReportWithDeviceCodeCommand;
 import org.hidrobots.platform.report.domain.model.commands.CreateWeatherReportCommand;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -43,5 +44,13 @@ public class SoilReport {
         this.phosphorus = command.phosphorus();
         this.potassium = command.potassium();
         this.deviceId = command.deviceId();
+    }
+
+    public SoilReport(CreateSoilReportWithDeviceCodeCommand command, Long deviceId) {
+        this();
+        this.nitrogen = command.getNitrogen();
+        this.phosphorus = command.getPhosphorus();
+        this.potassium = command.getPotassium();
+        this.deviceId = deviceId;
     }
 }
