@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MqttConfig {
-    private static final String MQTT_BROKER_URL = "tcp://mqtt-dashboard.com:1883";
-    private static final String CLIENT_ID = "clientId_123456789123456798";
+    private static final String MQTT_BROKER_URL = "ssl://5a70dde393074cb8995275a580119679.s1.eu.hivemq.cloud:8883";
+    private static final String CLIENT_ID = "clientId_hidrobots_backend";
+    private static final String USERNAME = "hidrobots";
+    private static final String PASSWORD = "Hidrob0ts";
 
     private static final String WEATHER_ANALYSIS_TOPIC = "hidrobots/weather_analysis/data";
     private static final String SOIL_ANALYSIS_TOPIC = "hidrobots/soil_analysis/data";
@@ -33,6 +35,8 @@ public class MqttConfig {
         MqttClient client = new MqttClient(MQTT_BROKER_URL, CLIENT_ID, new MemoryPersistence());
         MqttConnectOptions options = new MqttConnectOptions();
         options.setCleanSession(true);
+        options.setUserName(USERNAME);
+        options.setPassword(PASSWORD.toCharArray());
 
         client.setCallback(new MqttCallback() {
             @Override
