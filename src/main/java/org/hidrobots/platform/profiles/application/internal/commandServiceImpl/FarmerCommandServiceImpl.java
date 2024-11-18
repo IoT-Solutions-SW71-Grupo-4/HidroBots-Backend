@@ -61,6 +61,8 @@ public class FarmerCommandServiceImpl implements FarmerCommandService {
             farmer.setPhoneNumber(command.phoneNumber());
         }
 
+        farmerRepository.save(farmer);
+
         return Optional.of(farmer);
 
     }
