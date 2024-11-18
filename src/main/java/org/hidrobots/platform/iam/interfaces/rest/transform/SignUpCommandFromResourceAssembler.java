@@ -15,7 +15,7 @@ public class SignUpCommandFromResourceAssembler {
                 : new ArrayList<Role>();
         System.out.print("Roles:");
         
-        System.out.println(!roles.isEmpty() ? roles.getFirst().getName().name() : "No roles");
+        System.out.println(!roles.isEmpty() ? roles.get(0).getName().name() : "No roles");
         return new SignUpCommand(resource.fullName(), resource.email(), resource.password(), roles);
     }
 
