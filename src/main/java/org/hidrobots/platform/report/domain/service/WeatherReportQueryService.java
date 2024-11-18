@@ -9,4 +9,6 @@ public interface WeatherReportQueryService {
     List<WeatherReport> getAllReport();
     Optional<WeatherReport> getReportById(Long id);
     Optional<WeatherReport> getLastReport();
+    List<WeatherReport>  getAllReportByCropId(Long cropId);
+    Optional<WeatherReport> getLastReportByCropId(Long cropId);
 }
