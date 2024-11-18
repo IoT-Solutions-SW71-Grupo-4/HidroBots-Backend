@@ -9,4 +9,7 @@ public interface SoilReportQueryService {
     List<SoilReport> getAllReport();
     Optional<SoilReport> getReportById(Long id);
     Optional<SoilReport> getLastReport();
+
+    List<SoilReport> getAllReportByCropId(Long cropId);
+    Optional<SoilReport> getLastReportByCropId(Long cropId);
 }
