@@ -107,4 +107,22 @@ public class DeviceController {
                 devices.stream().map(DeviceResourceFromEntityAssembler::toResourceFromEntity).collect(Collectors.toList())
         );
     }
+
+    @Operation(
+            summary = "Get device by ID",
+            description = "Get a device by its ID"
+    )
+    @GetMapping("/{deviceId}")
+    public ResponseEntity<DeviceResource> getDeviceById(@PathVariable Long deviceId) {
+        var device = deviceQueryService.getDeviceById(deviceId);
+        if (device.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var deviceResource = DeviceResourceFromEntityAssembler.toResourceFromEntity(device.get());
+        return ResponseEntity.ok(deviceResource);
+    }
+
+
+
 }
