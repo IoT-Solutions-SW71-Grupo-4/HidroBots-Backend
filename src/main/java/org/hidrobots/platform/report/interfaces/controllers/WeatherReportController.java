@@ -57,4 +57,21 @@ public class WeatherReportController {
         var weatherReportResource = WeatherReportResourceFromClass.toResourceFromClass(weatherReport.get());
         return new ResponseEntity<>(weatherReportResource, HttpStatus.CREATED);
     }
+
+    @GetMapping("{cropId}")
+    public ResponseEntity<List<WeatherReportResource>> getAllWeatherReportByCropId(@PathVariable Long  cropId) {
+        var weatherReports = weatherReportQueryService.getAllReportByCropId(cropId);
+        return ResponseEntity.ok(weatherReports.stream().map(WeatherReportResourceFromClass::toResourceFromClass).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/last/{cropId}")
+    public ResponseEntity<WeatherReportResource> getLastWeatherReportByCropId(@PathVariable Long cropId) {
+        var weatherReport = weatherReportQueryService.getLastReportByCropId(cropId);
+        var weatherReportResource = WeatherReportResourceFromClass.toResourceFromClass(weatherReport.get());
+        return new ResponseEntity<>(weatherReportResource, HttpStatus.CREATED);
+    }
+
+
+
+
 }
