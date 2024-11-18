@@ -54,4 +54,17 @@ public class SoilReportController {
         var soilReportResource = SoilReportResourceFromClass.toResourceFromClass(soilReport.get());
         return new ResponseEntity<>(soilReportResource, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{cropId}")
+    public ResponseEntity<List<SoilReportResource>> getAllSoilReportByCropId(@PathVariable Long cropId) {
+        var soilReports = soilReportQueryService.getAllReportByCropId(cropId);
+        return ResponseEntity.ok(soilReports.stream().map(SoilReportResourceFromClass::toResourceFromClass).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/last/{cropId}")
+    public ResponseEntity<SoilReportResource> getLastSoilReportByCropId(@PathVariable Long cropId) {
+        var soilReport = soilReportQueryService.getLastReportByCropId(cropId);
+        var soilReportResource = SoilReportResourceFromClass.toResourceFromClass(soilReport.get());
+        return new ResponseEntity<>(soilReportResource, HttpStatus.CREATED);
+    }
 }
