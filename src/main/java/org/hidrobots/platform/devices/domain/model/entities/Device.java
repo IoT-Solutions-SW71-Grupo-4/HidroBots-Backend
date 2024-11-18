@@ -20,7 +20,6 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-@NoArgsConstructor
 public class Device extends AuditableAbstractAggregateRoot<Device> {
 
     @Column(nullable = false, unique = true)
@@ -34,7 +33,10 @@ public class Device extends AuditableAbstractAggregateRoot<Device> {
         this();
         this.cropId = command.cropId();
         this.deviceCode = UUID.randomUUID().toString();
+    }
 
+    public Device() {
+        this.deviceCode = UUID.randomUUID().toString();
     }
 
 }

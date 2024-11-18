@@ -36,6 +36,26 @@ public class DeviceCommandServiceImpl implements DeviceCommandService {
 
 
     @Override
-    public void connectDevice(ConnectDeviceCommand command) {
+    public Device connectDevice(ConnectDeviceCommand command) {
+        var deviceEntity = this.deviceRepository.findByDeviceCode(command.deviceCode());
+        if (deviceEntity.isEmpty()) {
+            throw new IllegalArgumentException("Invalid deviceCode: Device does not exist");
+        }
+        var device = deviceEntity.get();
+
+        if (!cropRepository.existsById(command.cropId())) {
+            throw new IllegalArgumentException("Invalid cropId: Crop does not exist");
+        }
+
+        device.setCropId(command.cropId());
+        this.deviceRepository.save(device);
+
+        return device;
+    }
+
+    @Override
+    public Device generateDeviceCode() {
+        var device = new Device();
+        return this.deviceRepository.save(device);
     }
 }

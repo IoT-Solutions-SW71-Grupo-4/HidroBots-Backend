@@ -2,6 +2,7 @@ package org.hidrobots.platform.devices.interfaces.rest.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.hidrobots.platform.devices.domain.model.commands.ConnectDeviceCommand;
 import org.hidrobots.platform.devices.domain.model.commands.CreateDeviceCommand;
 import org.hidrobots.platform.devices.domain.services.DeviceCommandService;
 import org.hidrobots.platform.devices.domain.services.DeviceQueryService;
@@ -30,6 +31,17 @@ public class DeviceController {
     }
 
     @Operation(
+            summary = "Generate device code"
+    )
+    @PostMapping("/generate")
+    public ResponseEntity<DeviceResource> generateDeviceCode() {
+        var device = deviceCommandService.generateDeviceCode();
+
+        var deviceResource = DeviceResourceFromEntityAssembler.toResourceFromEntity(device);
+        return new ResponseEntity<>(deviceResource, HttpStatus.CREATED);
+    }
+
+    @Operation(
             summary = "Create device",
             description = "Create a new device"
     )
@@ -52,12 +64,16 @@ public class DeviceController {
     }
 
     @Operation(
-            summary = "Connect device",
+            summary = "Connect device with a crop",
             description = "Connect an existing device"
     )
-    @PostMapping("/{deviceId}/connect")
-    public ResponseEntity<?> connectDevice(@PathVariable Long deviceId) {
-        return null;
+    @PatchMapping("/{deviceCode}/connect/crops/{cropId}")
+    public ResponseEntity<DeviceResource> connectDevice(@PathVariable String deviceCode, @PathVariable Long cropId) {
+        var connectDeviceCommand = new ConnectDeviceCommand(deviceCode, cropId);
+        var device = deviceCommandService.connectDevice(connectDeviceCommand);
+
+        var deviceResource = DeviceResourceFromEntityAssembler.toResourceFromEntity(device);
+        return new ResponseEntity<>(deviceResource, HttpStatus.OK);
     }
 
     @Operation(
